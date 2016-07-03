@@ -15,6 +15,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".TaskActivity1" android:label="Task: Activity 1" ></activity>
+        <activity android:name=".TaskActivity2" android:label="Task: Activity 2" ></activity>
+        <activity android:name=".TaskActivity3" android:label="Task: Activity 3" ></activity>
+        <service android:name=".MyNotificationService" />
     </application>
 
 </manifest>
