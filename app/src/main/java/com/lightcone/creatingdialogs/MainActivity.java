@@ -171,8 +171,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
             // Use the Builder class to construct the dialog.  Use the
             // form of the builder constructor that allows a theme to be set.
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),
-                    AlertDialog.THEME_HOLO_DARK);
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppTheme);
             if(title != null) builder.setTitle(title);
             if(iconID != 0)builder.setIcon(iconID);
             builder.setMessage(message)
