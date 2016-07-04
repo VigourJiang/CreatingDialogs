@@ -13,17 +13,19 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
-public class MainActivity extends FragmentActivity implements OnClickListener{
+public class MainActivity extends FragmentActivity implements OnClickListener {
 
     private static final int numberTasks = 2;
     private static final String launcherTitle = "Task Description";
     private static final int launcherIcon = R.drawable.dialog_icon;
     private static int buttonPressed;
-    private String [] taskDescription = new String [numberTasks];
+    private String[] taskDescription = new String[numberTasks];
 
     private static int dialogTheme;  // Integer defining the dialog theme
 
-    /** Called when the activity is first created. */
+    /**
+     * Called when the activity is first created.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +47,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 
         // Use Material Design them if API 23 or later; Holo Light if earlier
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             dialogTheme = AlertDialog.THEME_HOLO_LIGHT;  // Deprecated with API 23
         } else {
             dialogTheme = R.style.MyDialogTheme;
@@ -58,14 +60,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
     }
 
     @Override
     public void onClick(View v) {
 
-        switch(v.getId()){
+        switch (v.getId()) {
             // For buttons 1 and 2, launch floating dialogs
             case R.id.button01:
                 buttonPressed = 1;
@@ -76,7 +78,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
                 AlertFragment.context = this;
                 AlertFragment.iconID = launcherIcon;
                 AlertFragment.title = launcherTitle;
-                AlertFragment.message = taskDescription[buttonPressed-1];
+                AlertFragment.message = taskDescription[buttonPressed - 1];
 
                 DialogFragment fragment = new AlertFragment();
                 fragment.show(getSupportFragmentManager(), "Task 1");
@@ -85,7 +87,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 
             case R.id.button02:
                 buttonPressed = 2;
-                showTaskDialog(launcherTitle, taskDescription[buttonPressed-1], launcherIcon, this);
+                showTaskDialog(launcherTitle, taskDescription[buttonPressed - 1], launcherIcon, this);
                 break;
 
             // For button 3, start a service that will place a notification in the task bar
@@ -105,7 +107,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
      * statement in launchTask().
      */
 
-    private void showTaskDialog(String title, String message, int icon, Context context){
+    private void showTaskDialog(String title, String message, int icon, Context context) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context, dialogTheme);
         builder.setMessage(message).setTitle(title).setIcon(icon);
@@ -130,17 +132,17 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
      * Method launchTask() uses a switch statement to decide which task to launch.
      */
 
-    private void launchTask(){
+    private void launchTask() {
 
         // Illustrate a Toast notification
         Toast.makeText(this, "launchTask() executed", Toast.LENGTH_SHORT).show();
 
-        switch(buttonPressed){
-            case 1:	// Launch task 1
+        switch (buttonPressed) {
+            case 1:    // Launch task 1
                 Intent i = new Intent(this, TaskActivity1.class);
                 startActivity(i);
                 break;
-            case 2:	// Launch task 2
+            case 2:    // Launch task 2
                 Intent j = new Intent(this, TaskActivity2.class);
                 startActivity(j);
                 break;
@@ -149,7 +151,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 
     // Start a service to demo a status bar notification
 
-    public void startTheService(){
+    public void startTheService() {
         Intent serviceIntent = new Intent(this, MyNotificationService.class);
         this.startService(serviceIntent);
     }
@@ -158,12 +160,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
      * Example of a class to create alert dialog fragments. To call from another
      * class, set the values of the static variables and then instantiate.  Example:
      *
-     *      AlertFragment.context = this;
-     AlertFragment.iconID = launcherIcon;
-     AlertFragment.title = launcherTitle;
-     AlertFragment.message = taskDescription[buttonPressed-1];
-     DialogFragment fragment = new AlertFragment();
-     fragment.show(getSupportFragmentManager(), "Task 1");
+     * AlertFragment.context = this;
+     * AlertFragment.iconID = launcherIcon;
+     * AlertFragment.title = launcherTitle;
+     * AlertFragment.message = taskDescription[buttonPressed-1];
+     * DialogFragment fragment = new AlertFragment();
+     * fragment.show(getSupportFragmentManager(), "Task 1");
      */
 
     public static class AlertFragment extends DialogFragment {
@@ -181,8 +183,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
             // form of the builder constructor that allows a theme to be set.
 
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), MainActivity.dialogTheme);
-            if(title != null) builder.setTitle(title);
-            if(iconID != 0)builder.setIcon(iconID);
+            if (title != null) builder.setTitle(title);
+            if (iconID != 0) builder.setIcon(iconID);
             builder.setMessage(message)
                     .setPositiveButton("Select this task", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
@@ -200,7 +202,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
         }
 
         // Method to launch new activity when button pressed in Alert Dialog
-        private void launchTask(){
+        private void launchTask() {
             Intent i = new Intent(context, TaskActivity1.class);
             startActivity(i);
         }
