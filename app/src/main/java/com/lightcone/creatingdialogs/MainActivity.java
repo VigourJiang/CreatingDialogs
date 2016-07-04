@@ -5,10 +5,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
@@ -20,6 +20,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
     private static final int launcherIcon = R.drawable.dialog_icon;
     private static int buttonPressed;
     private String [] taskDescription = new String [numberTasks];
+
+    private static int dialogTheme;  // Integer defining the dialog theme
 
     /** Called when the activity is first created. */
     @Override
@@ -40,6 +42,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 
         taskDescription[0] = getString(R.string.task_description1);
         taskDescription[1] = getString(R.string.task_description2);
+
+        // Use Material Design them if API 23 or later; Holo Light if earlier
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+            dialogTheme = AlertDialog.THEME_HOLO_LIGHT;  // Deprecated with API 23
+        } else {
+            dialogTheme = R.style.MyDialogTheme;
+        }
     }
 
     @Override
@@ -97,8 +107,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 
     private void showTaskDialog(String title, String message, int icon, Context context){
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(context,
-                AlertDialog.THEME_HOLO_LIGHT);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, dialogTheme);
         builder.setMessage(message).setTitle(title).setIcon(icon);
         // Add the buttons
         builder.setPositiveButton("Select this Task", new DialogInterface.OnClickListener() {
@@ -171,7 +180,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
             // Use the Builder class to construct the dialog.  Use the
             // form of the builder constructor that allows a theme to be set.
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppTheme);
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), MainActivity.dialogTheme);
             if(title != null) builder.setTitle(title);
             if(iconID != 0)builder.setIcon(iconID);
             builder.setMessage(message)
